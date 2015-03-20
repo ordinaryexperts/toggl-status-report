@@ -1,16 +1,16 @@
-# weekly-status
+# toggl-status-reports
 
-Creates weekly status emails with time spent information from toggl.  Aims to be suitable for forwarding to clients.
+Creates Excel status reports per client with time spent information from toggl.  Aims to be suitable for forwarding to clients.
 
 # installation / configuration
 
-    $ git clone https://github.com/ordinaryexperts/weekly-status.git
-    $ cd weekly-status
+    $ git clone https://github.com/ordinaryexperts/toggl-status-report.git
+    $ cd toggl-status-report
     $ composer install
     $ cp config.json.dist config.json
     $ emacs config.json
 
 # usage
 
-    $ php send-weekly-status.php -v -s 2015-01-01 -e 2015-01-31
+    $ php generate-status.php -v -s 2015-01-01 -e 2015-01-31
     $ ls -l build
