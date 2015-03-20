@@ -60,12 +60,8 @@ if (!$current_ws) {
 }
 
 $header_style = array(
-    'font' => array(
-        'bold' => true,
-    ),
-    'alignment' => array(
-        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-    ),
+    'font' => array('bold' => true),
+    'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 );
 
 $clients = $toggl_client->getClients(array());
@@ -126,6 +122,7 @@ foreach ($clients as $client) {
         $sheet->getStyle($header_range)->applyFromArray($header_style);
 
         // write out each time entry
+        $last_row = 0;
         foreach ($weekly_report['data'] as $row_i => $time_entry) {
             foreach ($columns as $col_letter => $val) {
                 $cell = $col_letter . ($row_i + 4);
@@ -138,7 +135,20 @@ foreach ($clients as $client) {
                 }
                 $sheet->SetCellValue($cell, $value);
             }
+            $last_row = $row_i;
         }
+
+        // write out total hours at the bottom
+        $total_label_cell = array_keys($columns)[count($columns)-2] . ($last_row + 6);
+        $sheet->SetCellValue($total_label_cell, "Total Hours");
+        $sheet->getStyle($total_label_cell)->applyFromArray(
+            array(
+                'font' => array('bold' => true),
+                'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT)
+            )
+        );
+        $total_num_cell = array_keys($columns)[count($columns)-1] . ($last_row + 6);
+        $sheet->SetCellValue($total_num_cell, $total_hours);
 
         // save to file
         $writer = new PHPExcel_Writer_Excel2007($report);
