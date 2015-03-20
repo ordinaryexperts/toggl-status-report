@@ -1,4 +1,4 @@
-# toggl-status-reports
+# toggl-status-report
 
 Creates Excel status reports per client with time spent information from toggl.  Aims to be suitable for forwarding to clients.
 
