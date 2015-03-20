@@ -10,12 +10,18 @@ use Cocur\Slugify\Slugify;
                          
 $options = getopt("s:e:v");
 $debug = array_key_exists('v', $options);
-$start_date = (array_key_exists('s', $options)) ? $options['s'] : date('Y-m-d');
 if (array_key_exists('e', $options)) {
     $end_date = $options['e'];
 } else {
-    $tmp = new DateTime($start_date);
-    $end_date = $tmp->add(new DateInterval('P6D'))->format('Y-m-d');
+    $tmp= new DateTime();
+    $tmp->add(DateInterval::createFromDateString('yesterday'));
+    $end_date = $tmp->format('Y-m-d');
+}
+if (array_key_exists('s', $options)) {
+    $start_date = $options['s'];
+} else {
+    $tmp = new DateTime($end_date);
+    $start_date = $tmp->sub(new DateInterval('P6D'))->format('Y-m-d');
 }
 
 $config = json_decode(file_get_contents('config.json'), true);
