@@ -13,3 +13,4 @@ Creates weekly status emails with time spent information from toggl.  Aims to be
 # usage
 
     $ php send-weekly-status.php -v -s 2015-01-01 -e 2015-01-31
+    $ ls -l build
