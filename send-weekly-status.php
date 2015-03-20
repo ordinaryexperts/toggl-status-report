@@ -9,7 +9,6 @@ use AJT\Toggl\ReportsClient;
 use Cocur\Slugify\Slugify;
                          
 $options = getopt("s:e:v");
-echo print_r($options, true);
 $debug = false;
 if (array_key_exists('v', $options)) {
     $debug = true;
@@ -114,18 +113,23 @@ foreach ($clients as $client) {
         $report->setActiveSheetIndex(0);
         $sheet = $report->getActiveSheet();
 
+        $title_range = array_keys($columns)[0] . '1:' . array_keys($columns)[count($columns)-1] . '1';
+        $sheet->mergeCells($title_range);
+        $sheet->SetCellValue('A1', "Hours tracked for {$client['name']} by {$config['toggl_workspace']} from {$start_date} to {$end_date}");
+        $sheet->getStyle('A1')->applyFromArray($header_style);
         // write out headers and do some basic formatting
         foreach ($columns as $col_letter => $val) {
-            $sheet->SetCellValue("{$col_letter}1", $nice_columns[$val]);
+            $sheet->SetCellValue("{$col_letter}3", $nice_columns[$val]);
             $sheet->getColumnDimension($col_letter)->setAutoSize(true);
         }
-        $header_range = array_keys($columns)[0] . '1:' . array_keys($columns)[count($columns)-1] . '1';
+        $header_range = array_keys($columns)[0] . '3:' . array_keys($columns)[count($columns)-1] . '3';
+
         $sheet->getStyle($header_range)->applyFromArray($header_style);
 
         // write out each time entry
         foreach ($weekly_report['data'] as $row_i => $time_entry) {
             foreach ($columns as $col_letter => $val) {
-                $cell = $col_letter . ($row_i + 2);
+                $cell = $col_letter . ($row_i + 4);
                 if ($val == 'dur') {
                     // convert milliseconds to hours
                     $value = $time_entry[$val] / 1000 / 60 / 60;
