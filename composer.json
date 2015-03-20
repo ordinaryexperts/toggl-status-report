@@ -1,5 +1,7 @@
 {
     "require": {
-        "ajt/guzzle-toggl": "0.10"
+        "ajt/guzzle-toggl": "0.10",
+        "phpoffice/phpexcel": "dev-master",
+        "cocur/slugify": "~1.1"
     }
 }
