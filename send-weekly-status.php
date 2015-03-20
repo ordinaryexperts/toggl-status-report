@@ -9,16 +9,8 @@ use AJT\Toggl\ReportsClient;
 use Cocur\Slugify\Slugify;
                          
 $options = getopt("s:e:v");
-$debug = false;
-if (array_key_exists('v', $options)) {
-    $debug = true;
-}
-
-if (array_key_exists('s', $options)) {
-    $start_date = $options['s'];
-} else {
-    $start_date = date("Y-m-d");
-}
+$debug = array_key_exists('v', $options);
+$start_date = (array_key_exists('s', $options)) ? $options['s'] : date('Y-m-d');
 if (array_key_exists('e', $options)) {
     $end_date = $options['e'];
 } else {
@@ -26,7 +18,7 @@ if (array_key_exists('e', $options)) {
     $end_date = $tmp->add(new DateInterval('P6D'))->format('Y-m-d');
 }
 
-$config  = json_decode(file_get_contents('config.json'), true);
+$config = json_decode(file_get_contents('config.json'), true);
 $slugify = new Slugify();
 
 $toggl_client = TogglClient::factory(
@@ -62,12 +54,12 @@ if (!$current_ws) {
 }
 
 $header_style = array(
-	'font' => array(
-		'bold' => true,
-	),
-	'alignment' => array(
-		'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-	),
+    'font' => array(
+        'bold' => true,
+    ),
+    'alignment' => array(
+        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    ),
 );
 
 $clients = $toggl_client->getClients(array());
@@ -113,17 +105,18 @@ foreach ($clients as $client) {
         $report->setActiveSheetIndex(0);
         $sheet = $report->getActiveSheet();
 
+        // write out a title
         $title_range = array_keys($columns)[0] . '1:' . array_keys($columns)[count($columns)-1] . '1';
         $sheet->mergeCells($title_range);
         $sheet->SetCellValue('A1', "Hours tracked for {$client['name']} by {$config['toggl_workspace']} from {$start_date} to {$end_date}");
         $sheet->getStyle('A1')->applyFromArray($header_style);
-        // write out headers and do some basic formatting
+
+        // write out headers
         foreach ($columns as $col_letter => $val) {
             $sheet->SetCellValue("{$col_letter}3", $nice_columns[$val]);
             $sheet->getColumnDimension($col_letter)->setAutoSize(true);
         }
         $header_range = array_keys($columns)[0] . '3:' . array_keys($columns)[count($columns)-1] . '3';
-
         $sheet->getStyle($header_range)->applyFromArray($header_style);
 
         // write out each time entry
@@ -144,6 +137,7 @@ foreach ($clients as $client) {
         // save to file
         $writer = new PHPExcel_Writer_Excel2007($report);
         $writer->save("build/{$slugify->slugify($client['name'])}-hours-{$start_date}-to-{$end_date}.xlsx");
+
         echo "done - $total_hours hours tracked.\n";
     }
 }
