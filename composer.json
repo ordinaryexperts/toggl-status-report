@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ajt/guzzle-toggl": "0.10"
+    }
+}

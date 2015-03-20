@@ -1,0 +1,14 @@
+{
+    "clients": [
+        {
+            "name": "My First Client, Inc.",
+            "toggl_name": "First Client"
+        },
+        {
+            "name": "Doing Business LLC",
+            "toggl_name": "Doing Business"
+        }
+    ],
+    "toggl_api_key": "12345678901234567890",
+    "recipient_email": "dylan@ordinaryexperts.com"
+}
