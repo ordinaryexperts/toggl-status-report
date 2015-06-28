@@ -57,9 +57,10 @@ foreach ($users as $user) {
         $output .= "* {$time_entry['client']}: {$time_entry['project']}: {$time_entry['description']}: {$time} hours\n";
     }
     $output .= "\nLook good?  Great!\n\nNeed to make changes?\n\nhttps://www.toggl.com/app/reports/detailed/{$current_ws['id']}/period/today/billable/both";
-    echo $user['email'] . "\n";
-    echo $output . "\n";
+    $output .= "\n\nThanks, {$current_ws['name']} Bot\n";
+    // echo $user['email'] . "\n";
+    // echo $output . "\n";
     if ($user['email'] == 'dylan@ordinaryexperts.com') {
-        mail($user['email'], '[oe] Daily Hours Report', $output);
+        mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$today}", $output);
     }
 }
