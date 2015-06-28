@@ -3,7 +3,8 @@
 require(dirname(__FILE__) . '/vendor/autoload.php');
 require(dirname(__FILE__) . '/vendor/phpoffice/phpexcel/Classes/PHPExcel.php');
 require(dirname(__FILE__) . '/vendor/phpoffice/phpexcel/Classes/PHPExcel/Writer/Excel2007.php');
-                 
+require(dirname(__FILE__) . '/includes.php');
+
 use AJT\Toggl\TogglClient;
 use AJT\Toggl\ReportsClient;
 use Cocur\Slugify\Slugify;
@@ -13,7 +14,7 @@ $debug = array_key_exists('v', $options);
 if (array_key_exists('e', $options)) {
     $end_date = $options['e'];
 } else {
-    $tmp= new DateTime();
+    $tmp = new DateTime();
     $tmp->add(DateInterval::createFromDateString('yesterday'));
     $end_date = $tmp->format('Y-m-d');
 }
@@ -41,19 +42,7 @@ $reports_client = ReportsClient::factory(
     )
 );
 
-try {
-    $workspaces = $toggl_client->getWorkspaces(array());
-} catch (Exception $e) {
-    die("ERROR: Communication with Toggl failed. Dying.\n");
-}
-
-$current_ws = null;
-foreach ($workspaces as $workspace) {
-    if ($workspace['name'] == $config['toggl_workspace']) {
-        $current_ws = $workspace;
-        break;
-    }
-}
+$current_ws = getWorkspaceByName($config['toggl_workspace'], $toggl_client);
 
 if (!$current_ws) {
     die("ERROR: Workspace '{$config['toggl_workspace']}' not found. Dying.\n");
