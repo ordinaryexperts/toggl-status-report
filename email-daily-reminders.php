@@ -56,7 +56,7 @@ foreach ($users as $user) {
         $time = $time_entry['dur'] / 1000 / 60 / 60;
         $output .= "* {$time_entry['client']}: {$time_entry['project']}: {$time_entry['description']}: {$time} hours\n";
     }
-    $output .= "\nLook good?  Great!\n\nNeed to make changes?\n\nhttps://www.toggl.com/app/reports/detailed/776221/period/today/billable/both";
+    $output .= "\nLook good?  Great!\n\nNeed to make changes?\n\nhttps://www.toggl.com/app/reports/detailed/{$current_ws['id']}/period/today/billable/both";
     echo $user['email'] . "\n";
     echo $output . "\n";
     if ($user['email'] == 'dylan@ordinaryexperts.com') {
