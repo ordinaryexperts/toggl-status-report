@@ -1,5 +1,6 @@
 {
     "toggl_api_key": "12345678901234567890",
     "toggl_workspace": "Your Company",
-    "recipient_email": "email@yourcompany.com"
+    "recipient_email": "email@yourcompany.com",
+    "team_email": "email@yourcompany.com"
 }
