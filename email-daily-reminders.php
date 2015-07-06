@@ -60,7 +60,5 @@ foreach ($users as $user) {
     $output .= "\n\nThanks, {$current_ws['name']} Bot\n";
     // echo $user['email'] . "\n";
     // echo $output . "\n";
-    if ($user['email'] == 'dylan@ordinaryexperts.com') {
-        mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$today}", $output);
-    }
+    mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$today}", $output);
 }
