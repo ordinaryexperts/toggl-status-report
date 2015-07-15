@@ -60,5 +60,6 @@ foreach ($users as $user) {
     $output .= "\n\nThanks, {$current_ws['name']} Bot\n";
     // echo $user['email'] . "\n";
     // echo $output . "\n";
-    mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$today}", $output);
+    $headers = "From: {$current_ws['name']} <{$config['team_email']}>";
+    mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$today}", $output, $headers);
 }

@@ -71,5 +71,6 @@ foreach ($users as $user) {
     $output .= "\n";
 }
 $output .= "Thanks, {$current_ws['name']} Bot\n\n";
-mail($config['team_email'], "[{$current_ws['name']}] Team Report for {$yesterday}", $output);
+$headers = "From: {$current_ws['name']} <{$config['team_email']}>";
+mail($config['team_email'], "[{$current_ws['name']}] Team Report for {$yesterday}", $output, $headers);
 // echo $output;
