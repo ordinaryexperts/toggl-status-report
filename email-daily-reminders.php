@@ -51,7 +51,11 @@ foreach ($users as $user) {
     );
     $total = $daily_report['total_grand'] / 1000 / 60 / 60;
     $output .= "Hi {$user['fullname']},\n\n";
-    $output .= "Total for the day: $total hours\n\n";
+    $output .= "Total for the day: $total hour";
+    if ($output != 1) {
+        $output .= "s";
+    }
+    $output .= "\n\n";
     foreach ($daily_report['data'] as $row_i => $time_entry) {
         $time = $time_entry['dur'] / 1000 / 60 / 60;
         $output .= "* {$time_entry['client']}: {$time_entry['project']}: {$time_entry['description']}: {$time} hours\n";
