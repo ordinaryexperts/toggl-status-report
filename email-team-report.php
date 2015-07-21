@@ -31,10 +31,11 @@ if (!$current_ws) {
 }
 $users = $toggl_client->getWorkspaceUsers(array('id' => $current_ws['id']));
 
-$yesterday = (new DateTime('yesterday'))->format('Y-m-d');
+$yesterdayDt = new DateTime('yesterday');
+$yesterday = $yesterdayDt->format('Y-m-d');
 
 $output = "\nHello all,\n\n";
-$output .= "Please find the team's billable summary for {$yesterday} below:\n\n";
+$output .= "Please find the team's billable summary for {$yesterdayDt->format('D, F j, Y')} below:\n\n";
 
 foreach ($users as $user) {
 
@@ -72,5 +73,5 @@ foreach ($users as $user) {
 }
 $output .= "Thanks, {$current_ws['name']} Bot\n\n";
 $headers = "From: {$current_ws['name']} <{$config['team_email']}>";
-mail($config['team_email'], "[{$current_ws['name']}] Team Report for {$yesterday}", $output, $headers);
+mail($config['team_email'], "[{$current_ws['name']}] Team Report for {$yesterdayDt->format('D, F j')}", $output, $headers);
 // echo $output;

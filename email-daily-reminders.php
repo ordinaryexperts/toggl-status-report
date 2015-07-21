@@ -32,7 +32,8 @@ if (!$current_ws) {
 }
 $users = $toggl_client->getWorkspaceUsers(array('id' => $current_ws['id']));
 
-$today    = (new DateTime('today'))->format('Y-m-d');
+$todayDt  = new DateTime('today');
+$today    = $todayDt->format('Y-m-d');
 $tomorrow = (new DateTime('tomorrow'))->format('Y-m-d');
 
 foreach ($users as $user) {
@@ -65,5 +66,5 @@ foreach ($users as $user) {
     // echo $user['email'] . "\n";
     // echo $output . "\n";
     $headers = "From: {$current_ws['name']} <{$config['team_email']}>";
-    mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$today}", $output, $headers);
+    mail($user['email'], "[{$current_ws['name']}] Daily Hours Report for {$todayDt->format('D, F j')}", $output, $headers);
 }
