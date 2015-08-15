@@ -3,7 +3,7 @@
 require(dirname(__FILE__) . '/vendor/autoload.php');
 require(dirname(__FILE__) . '/vendor/phpoffice/phpexcel/Classes/PHPExcel.php');
 require(dirname(__FILE__) . '/vendor/phpoffice/phpexcel/Classes/PHPExcel/Writer/Excel2007.php');
-require(dirname(__FILE__) . '/includes.php');
+require(dirname(__FILE__) . '/includes/utils.php');
 
 use AJT\Toggl\TogglClient;
 use AJT\Toggl\ReportsClient;

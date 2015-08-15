@@ -1,7 +1,7 @@
 <?php
 
 require(dirname(__FILE__) . '/vendor/autoload.php');
-require(dirname(__FILE__) . '/includes.php');
+require(dirname(__FILE__) . '/includes/utils.php');
 
 use AJT\Toggl\TogglClient;
 use AJT\Toggl\ReportsClient;
