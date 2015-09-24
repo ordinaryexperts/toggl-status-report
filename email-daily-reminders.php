@@ -50,7 +50,7 @@ foreach ($users as $user) {
             'until'        => $tomorrow
         )
     );
-    $total = $daily_report['total_grand'] / 1000 / 60 / 60;
+    $total = round($daily_report['total_grand'] / 1000 / 60 / 60, 2);
     $output .= "Hi {$user['fullname']},\n\n";
     $output .= "Total for the day: $total hour";
     if ($output != 1) {
@@ -58,7 +58,7 @@ foreach ($users as $user) {
     }
     $output .= "\n\n";
     foreach ($daily_report['data'] as $row_i => $time_entry) {
-        $time = $time_entry['dur'] / 1000 / 60 / 60;
+        $time = round($time_entry['dur'] / 1000 / 60 / 60, 2);
         $output .= "* {$time_entry['client']}: {$time_entry['project']}: {$time_entry['description']}: {$time} hours\n";
     }
     $output .= "\nLook good?  Great!\n\nNeed to make changes?\n\nhttps://www.toggl.com/app/reports/detailed/{$current_ws['id']}/period/today/billable/both";

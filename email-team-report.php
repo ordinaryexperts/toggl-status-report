@@ -50,7 +50,7 @@ foreach ($users as $user) {
             'until'        => $yesterday
         )
     );
-    $total = $daily_report['total_grand'] / 1000 / 60 / 60;
+    $total = round($daily_report['total_grand'] / 1000 / 60 / 60, 2);
     $title = "{$user['fullname']} : $total hour";
     if ($total != 1) {
         $title .= "s";
@@ -59,7 +59,7 @@ foreach ($users as $user) {
     $output .= str_repeat("-", strlen($title)) . "\n";
     
     foreach ($daily_report['data'] as $row_i => $time_entry) {
-        $time = $time_entry['dur'] / 1000 / 60 / 60;
+        $time = round($time_entry['dur'] / 1000 / 60 / 60, 2);
         $output .= "* {$time_entry['client']}: {$time_entry['project']}: {$time_entry['description']}: {$time} hour";
         if ($time != 1) {
             $output .= "s";

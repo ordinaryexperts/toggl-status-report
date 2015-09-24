@@ -117,7 +117,7 @@ foreach ($clients as $client) {
                 $cell = $col_letter . ($row_i + 4);
                 if ($val == 'dur') {
                     // convert milliseconds to hours
-                    $value = $time_entry[$val] / 1000 / 60 / 60;
+                    $value = round($time_entry[$val] / 1000 / 60 / 60, 2);
                     $total_hours += $value;
                 } else {
                     $value = $time_entry[$val];
