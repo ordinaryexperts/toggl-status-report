@@ -80,17 +80,26 @@ foreach ($clients as $client) {
     if ($client['wid'] == $current_ws['id']) {
         echo "Generating report for client '{$client['name']}'...";
 
-        $total_hours = 0;
-        $weekly_report = $reports_client->details(
-            array(
-                'user_agent'   => $config['recipient_email'],
-                'workspace_id' => $current_ws['id'],
-                'client_ids'   => "{$client['id']}",
-                'order_desc'   => 'off',
-                'since'        => $start_date,
-                'until'        => $end_date
-            )
+        $page = 1;
+        $params = array(
+            'user_agent'   => $config['recipient_email'],
+            'workspace_id' => $current_ws['id'],
+            'client_ids'   => "{$client['id']}",
+            'order_desc'   => 'off',
+            'since'        => $start_date,
+            'until'        => $end_date,
+            'page'         => $page
         );
+
+        $weekly_report = $reports_client->details($params);
+        $total_count   = $weekly_report['total_count'];
+        $data          = $weekly_report['data'];
+
+        while ($total_count > count($data)) {
+            $params['page']++;
+            $weekly_report = $reports_client->details($params);
+            $data = array_merge($data, $weekly_report['data']);
+        }
 
         $report = new PHPExcel();
         $report->setActiveSheetIndex(0);
@@ -112,7 +121,8 @@ foreach ($clients as $client) {
 
         // write out each time entry
         $last_row = 0;
-        foreach ($weekly_report['data'] as $row_i => $time_entry) {
+        $total_hours = 0;
+        foreach ($data as $row_i => $time_entry) {
             foreach ($columns as $col_letter => $val) {
                 $cell = $col_letter . ($row_i + 4);
                 if ($val == 'dur') {
