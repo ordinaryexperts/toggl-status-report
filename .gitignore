@@ -1,3 +1,5 @@
 config.json
+projects.json
 vendor
 build
+build-*
