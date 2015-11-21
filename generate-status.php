@@ -149,9 +149,11 @@ foreach ($clients as $client) {
         $total_num_cell = array_keys($columns)[count($columns)-1] . ($last_row + 6);
         $sheet->SetCellValue($total_num_cell, $total_hours);
 
-        // save to file
-        $writer = new PHPExcel_Writer_Excel2007($report);
-        $writer->save("build/{$slugify->slugify($client['name'])}-hours-{$start_date}-to-{$end_date}.xlsx");
+        if ($total_hours > 0) {
+            // save to file
+            $writer = new PHPExcel_Writer_Excel2007($report);
+            $writer->save("build/{$slugify->slugify($client['name'])}-hours-{$start_date}-to-{$end_date}.xlsx");
+        }
 
         echo "done - $total_hours hours tracked.\n";
     }
